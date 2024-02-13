@@ -27,15 +27,14 @@ dependencies {
 
 	//Jpa , 데이터베이스 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'mysql:mysql-connector-java:8.0.23'
-
-	//시큐리티 , jwt토큰 의존성 추가
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-
-	//레디스 의존성 추가
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
+//	implementation 'mysql:mysql-connector-java:8.0.23'
+//
+//	//시큐리티 , jwt토큰 의존성 추가
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+//
+//	//레디스 의존성 추가
+//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
