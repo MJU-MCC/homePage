@@ -27,7 +27,7 @@ dependencies {
 
 	//Jpa , 데이터베이스 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	implementation 'mysql:mysql-connector-java:8.0.23'
+	implementation 'mysql:mysql-connector-java:8.0.23'
 //
 //	//시큐리티 , jwt토큰 의존성 추가
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
