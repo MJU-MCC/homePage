@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.example.mccHomePage.Member.message.MemberMessage.SIGN_SUCCESS;
+
 @RestController
 @RequestMapping("/member")
 public class MemberController {
@@ -32,11 +34,15 @@ public class MemberController {
 
         MemberResponse response = memberService.sign(id, ps);
 
-        return ResponseEntity.ok(response);
+        if(response.getMessage().equals(SIGN_SUCCESS))
+            return ResponseEntity.ok(response);
+
+        return  ResponseEntity.badRequest().body(response);
     }
 
     /*
      *로그인
      **/
+
 
 }
