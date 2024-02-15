@@ -1,8 +1,8 @@
 package com.example.mccHomePage.Member.controller;
 
-import com.example.mccHomePage.Member.Dto.MemberDto;
-import com.example.mccHomePage.Member.repository.MemberRepository;
+import com.example.mccHomePage.Member.dto.MemberDto;
 import com.example.mccHomePage.Member.response.MemberResponse;
+import com.example.mccHomePage.Member.response.TokenResponse;
 import com.example.mccHomePage.Member.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,5 +44,12 @@ public class MemberController {
      *로그인
      **/
 
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> mcclogin(@RequestBody MemberDto memberDto){
+        String id = memberDto.getMemberNumber();
+        String ps = memberDto.getMemberPassword();
+
+
+    }
 
 }
