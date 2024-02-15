@@ -1,5 +1,6 @@
 package com.example.mccHomePage.Member.service;
 
+import com.example.mccHomePage.Member.entity.Member;
 import com.example.mccHomePage.Member.message.MemberMessage;
 import com.example.mccHomePage.Member.repository.MemberRepository;
 import com.example.mccHomePage.Member.response.MemberResponse;
@@ -38,6 +39,14 @@ public class MemberService {
             response.setMessage(SIGN_FAIL);
             return response;
         }
+
+        Member signMember = Member.builder()
+                .memberNumber(id)
+                .memberPassword(ps)
+                .memberRole("USER")
+                .build();
+
+        memberRepository.save(signMember);
 
         response.setMessage(SIGN_SUCCESS);
         return response;
