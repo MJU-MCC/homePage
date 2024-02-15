@@ -4,6 +4,7 @@ import com.example.mccHomePage.Member.dto.MemberDto;
 import com.example.mccHomePage.Member.response.MemberResponse;
 import com.example.mccHomePage.Member.response.TokenResponse;
 import com.example.mccHomePage.Member.service.MemberService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.example.mccHomePage.Member.message.MemberMessage.SIGN_SUCCESS;
 
+@Api(tags = "MCC 동아리 홈페이지 Api 문서")
 @RestController
 @RequestMapping("/member")
 public class MemberController {
