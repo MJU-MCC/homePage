@@ -1,4 +1,4 @@
-package com.example.mccHomePage.Member.Dto;
+package com.example.mccHomePage.Member.dto;
 
 import lombok.Getter;
 

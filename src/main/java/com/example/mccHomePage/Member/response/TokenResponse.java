@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 @Getter
-public class MemberResponse {
-
-    private String Message;
-
+public class TokenResponse {
+    private String message;
+    private String accessToken;
+    private String refreshToken;
 }

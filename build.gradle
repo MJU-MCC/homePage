@@ -36,6 +36,11 @@ dependencies {
 	//레디스 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+	//swagger 의존성 추가
+	dependencies {
+		implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+		implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+	}
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
