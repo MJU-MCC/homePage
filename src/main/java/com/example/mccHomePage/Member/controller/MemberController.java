@@ -1,6 +1,7 @@
 package com.example.mccHomePage.Member.controller;
 
 import com.example.mccHomePage.Member.dto.MemberDto;
+import com.example.mccHomePage.Member.message.TokenMessage;
 import com.example.mccHomePage.Member.response.MemberResponse;
 import com.example.mccHomePage.Member.response.TokenResponse;
 import com.example.mccHomePage.Member.service.MemberService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.example.mccHomePage.Member.message.MemberMessage.SIGN_SUCCESS;
+import static com.example.mccHomePage.Member.message.TokenMessage.TOKEN_CREATE_FAIL;
 
 @Api(tags = "MCC 동아리 홈페이지 Api 문서")
 @RestController
@@ -56,6 +58,13 @@ public class MemberController {
         String id = memberDto.getMemberNumber();
         String ps = memberDto.getMemberPassword();
 
+        TokenResponse response = memberService.login(id, ps);
+
+        if(response.getMessage().equals(TOKEN_CREATE_FAIL)){
+            ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.ok().body(response);
 
     }
 

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 
 @Data
 @Entity
+@Builder
 public class Member {
 
     @Id
@@ -19,6 +20,7 @@ public class Member {
 
     private String memberNumber;
     private String memberPassword;
+    private String memberRole;
 
     public Member() {
 

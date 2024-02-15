@@ -1,21 +1,30 @@
 package com.example.mccHomePage.Member.service;
 
 import com.example.mccHomePage.Member.entity.Member;
-import com.example.mccHomePage.Member.message.MemberMessage;
+import com.example.mccHomePage.Member.message.TokenMessage;
 import com.example.mccHomePage.Member.repository.MemberRepository;
 import com.example.mccHomePage.Member.response.MemberResponse;
+import com.example.mccHomePage.Member.response.TokenResponse;
+import com.example.mccHomePage.token.TokenUtil;
 import org.springframework.stereotype.Service;
 
 import static com.example.mccHomePage.Member.message.MemberMessage.*;
+import static com.example.mccHomePage.Member.message.TokenMessage.TOKEN_CREATE_FAIL;
+import static com.example.mccHomePage.Member.message.TokenMessage.TOKEN_CREATE_SUCCESS;
 
 @Service
 public class MemberService {
+    private final String TokenType = "Bearer ";
 
-    private MemberResponse response;
+
+    private MemberResponse memberResponse;
+    private TokenResponse tokenResponse;
     private MemberRepository memberRepository;
+    private TokenUtil tokenUtil;
 
-    public MemberService(MemberResponse response) {
-        this.response = response;
+    public MemberService(MemberResponse response , TokenResponse tokenResponse) {
+        this.tokenResponse = tokenResponse;
+        this.memberResponse = response;
     }
 
     public MemberResponse sign(String id , String ps){
@@ -23,21 +32,21 @@ public class MemberService {
 
         //학번은 중복 될 수 없으니 가입한 학번이라면 중복이라고 알려주기
         if(isDuplicate){
-            response.setMessage(SIGN_DUPLICATE_MEMBERNUMBER);
-            return response;
+            memberResponse.setMessage(SIGN_DUPLICATE_MEMBERNUMBER);
+            return memberResponse;
         }
 
         boolean isMemberNumber = isRightMemberNumber(id);
         //학번이 제대로 입력이 안될경우 알려주기
         if(isMemberNumber){
-            response.setMessage(SIGN_RECHECK_MEMBERNUMBER);
-            return response;
+            memberResponse.setMessage(SIGN_RECHECK_MEMBERNUMBER);
+            return memberResponse;
         }
 
         boolean EmptyPassword = isEmptyPassword(ps);
         if(EmptyPassword){
-            response.setMessage(SIGN_FAIL);
-            return response;
+            memberResponse.setMessage(SIGN_FAIL);
+            return memberResponse;
         }
 
         Member signMember = Member.builder()
@@ -48,8 +57,8 @@ public class MemberService {
 
         memberRepository.save(signMember);
 
-        response.setMessage(SIGN_SUCCESS);
-        return response;
+        memberResponse.setMessage(SIGN_SUCCESS);
+        return memberResponse;
     }
     private boolean isEmptyPassword(String ps){
         /*
@@ -73,5 +82,24 @@ public class MemberService {
         }
 
         return true;
+    }
+
+    public TokenResponse login(String id , String ps){
+
+        Member findMember = memberRepository.findByMemberNumber(id);
+
+        if (findMember.getMemberPassword().equals(ps)) {
+
+            String accessToken = tokenUtil.accessToken(id);
+            String refreshToken = tokenUtil.refreshToken();
+            tokenResponse.setMessage(TOKEN_CREATE_SUCCESS);
+            tokenResponse.setAccessToken(TokenType + accessToken);
+            tokenResponse.setRefreshToken(TokenType + refreshToken);
+
+            return  tokenResponse;
+        }
+        tokenResponse.setMessage(TOKEN_CREATE_FAIL);
+
+        return tokenResponse;
     }
 }

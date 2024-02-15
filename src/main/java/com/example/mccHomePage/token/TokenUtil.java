@@ -37,7 +37,7 @@ public class TokenUtil {
                 .compact();
 
     }
-    public String refreshToken(String memberNumber){
+    public String refreshToken(){
 
         //토큰에 필요한 서명 알고리즘
         byte[] encodeBytes = Base64.getEncoder().encode(utilProvider.getKey().getBytes());
