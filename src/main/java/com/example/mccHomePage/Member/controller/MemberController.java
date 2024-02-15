@@ -8,6 +8,7 @@ import com.example.mccHomePage.Member.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import static com.example.mccHomePage.Member.message.TokenMessage.TOKEN_CREATE_F
 @Api(tags = "MCC 동아리 홈페이지 Api 문서")
 @RestController
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
 
 
@@ -36,7 +38,7 @@ public class MemberController {
     @PostMapping("/sign")
     @Operation(summary = "회원 가입" , description = "학번 과 비밀번호를 입력 받아야합니다.")
     public ResponseEntity<MemberResponse> mccSign(@RequestBody MemberDto memberDto){
-
+    log.info("회원가입 컨트롤러 진입");
         String id = memberDto.getMemberNumber();
         String ps = memberDto.getMemberPassword();
 

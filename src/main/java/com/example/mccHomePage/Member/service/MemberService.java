@@ -6,6 +6,7 @@ import com.example.mccHomePage.Member.repository.MemberRepository;
 import com.example.mccHomePage.Member.response.MemberResponse;
 import com.example.mccHomePage.Member.response.TokenResponse;
 import com.example.mccHomePage.token.TokenUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.example.mccHomePage.Member.message.MemberMessage.*;
@@ -13,19 +14,21 @@ import static com.example.mccHomePage.Member.message.TokenMessage.TOKEN_CREATE_F
 import static com.example.mccHomePage.Member.message.TokenMessage.TOKEN_CREATE_SUCCESS;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
     private final String TokenType = "Bearer ";
 
+    /**
+     * RequiredArgsConstructor 어노테이션을 이용하여 final 키워드가 붙은 필드들은
+     * 생성자 주입으로 객체 주입을 받을 수 있도록 한다.
+     * cf.final과 RequiredArgsConstructor를 사용하지 않으니 Repository에서 null 예외가 발생하였다.
+     */
 
-    private MemberResponse memberResponse;
-    private TokenResponse tokenResponse;
-    private MemberRepository memberRepository;
-    private TokenUtil tokenUtil;
+    private final MemberResponse memberResponse;
+    private final TokenResponse tokenResponse;
+    private final MemberRepository memberRepository;
+    private final TokenUtil tokenUtil;
 
-    public MemberService(MemberResponse response , TokenResponse tokenResponse) {
-        this.tokenResponse = tokenResponse;
-        this.memberResponse = response;
-    }
 
     public MemberResponse sign(String id , String ps){
         boolean isDuplicate = memberRepository.existsByMemberNumber(id);

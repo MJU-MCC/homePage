@@ -1,5 +1,6 @@
 package com.example.mccHomePage.Member.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 
     @Id
@@ -22,7 +25,4 @@ public class Member {
     private String memberPassword;
     private String memberRole;
 
-    public Member() {
-
-    }
 }
