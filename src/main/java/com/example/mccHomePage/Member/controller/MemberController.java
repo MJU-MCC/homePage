@@ -4,6 +4,8 @@ import com.example.mccHomePage.Member.dto.MemberDto;
 import com.example.mccHomePage.Member.response.MemberResponse;
 import com.example.mccHomePage.Member.response.TokenResponse;
 import com.example.mccHomePage.Member.service.MemberService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +28,9 @@ public class MemberController {
     /*
     *회원가입
     **/
+
     @PostMapping("/sign")
+    @Operation(summary = "회원 가입" , description = "학번 과 비밀번호를 입력 받아야합니다.")
     public ResponseEntity<MemberResponse> mccSign(@RequestBody MemberDto memberDto){
 
         String id = memberDto.getMemberNumber();
@@ -45,6 +49,7 @@ public class MemberController {
      **/
 
     @PostMapping("/login")
+    @Operation(summary = "로그인 Api" , description = "로그인을 통해 토큰을 발급합니다.")
     public ResponseEntity<TokenResponse> mcclogin(@RequestBody MemberDto memberDto){
         String id = memberDto.getMemberNumber();
         String ps = memberDto.getMemberPassword();
