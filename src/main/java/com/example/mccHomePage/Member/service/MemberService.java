@@ -41,7 +41,7 @@ public class MemberService {
 
         boolean isMemberNumber = isRightMemberNumber(id);
         //학번이 제대로 입력이 안될경우 알려주기
-        if(isMemberNumber){
+        if(!isMemberNumber){
             memberResponse.setMessage(SIGN_RECHECK_MEMBERNUMBER);
             return memberResponse;
         }
@@ -79,7 +79,7 @@ public class MemberService {
          * true를 반환한다면 올바른 학번
         */
 
-        if(id.length()!=8 || id.startsWith("60")){
+        if(id.length()!= 8 || !id.startsWith("60")){
             //학번이 8글자가 아니거나 8글자인데 60으로 시작하지 않으면 실패
             return false;
         }
