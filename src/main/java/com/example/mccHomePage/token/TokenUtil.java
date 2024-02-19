@@ -1,5 +1,6 @@
 package com.example.mccHomePage.token;
 
+import antlr.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,7 +28,7 @@ public class TokenUtil {
         claims.put("memberNumber" , memberNumber);
 
         //토큰에 필요한 서명 알고리즘
-        byte[] encodeBytes = Base64.getEncoder().encode(utilProvider.getKey().getBytes());
+        byte[] encodeBytes = encodeByte();
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -40,7 +41,7 @@ public class TokenUtil {
     public String refreshToken(){
 
         //토큰에 필요한 서명 알고리즘
-        byte[] encodeBytes = Base64.getEncoder().encode(utilProvider.getKey().getBytes());
+        byte[] encodeBytes = encodeByte();
 
         return Jwts.builder()
                 .setExpiration(new Date(System.currentTimeMillis() + utilProvider.getRefreshTokenExpiredTime() ))
@@ -49,4 +50,42 @@ public class TokenUtil {
 
     }
 
+    /**
+     * 토큰의 만료시간 체크하기
+     * @param inputToken
+     * @return 토큰이 유효한지
+     */
+    public boolean isExpiredToken(String inputToken){
+        return getClaims(inputToken)
+                .getExpiration()
+                .before(new Date());
+    }
+
+    /**
+     * 토큰의 Claim에서 학번 꺼내기
+     * @param inputToken
+     * @return 토큰에 있는 학번 꺼내기
+     */
+    public String getMemberNumber(String inputToken){
+        return getClaims(inputToken)
+                .get("memberNumber")
+                .toString();
+        }
+
+    //jwt 토큰의 구조에서는 Header / payload / Signature가 있는데
+    //payload안에 한줄씩을 우리는 Claim이라고 부른다.
+    private Claims getClaims(String inputToken){
+        return
+                Jwts.parser()
+                        .setSigningKey(
+                                encodeByte()
+                        )
+                        .parseClaimsJws(inputToken)
+                        .getBody();
+    }
+
+    // 비밀키 바이트형식으로 변환하기
+    private byte[] encodeByte(){
+        return Base64.getEncoder().encode(utilProvider.getKey().getBytes());
+    }
 }
