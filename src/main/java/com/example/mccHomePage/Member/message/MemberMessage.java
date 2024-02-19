@@ -15,4 +15,7 @@ public abstract class MemberMessage {
     public final static String SIGN_RECHECK_MEMBERNUMBER = "입력한 학번을 다시 확인해주세요";
     public final static String SIGN_FAIL = "회원가입 실패 하였습니다.";
 
+    public final static String NOT_AUTHENTICATE = "인증이 필요합니다.";
+    public final static String NOT_AUTHORIZATION = "관리자가 아닙니다.";
+
 }

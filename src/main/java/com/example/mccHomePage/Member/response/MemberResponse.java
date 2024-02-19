@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component;
 public class MemberResponse {
 
     private String Message;
+    private boolean Admin;
 
 }
