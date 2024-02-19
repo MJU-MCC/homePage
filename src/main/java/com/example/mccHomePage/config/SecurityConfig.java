@@ -12,6 +12,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity(debug = true)
 public class SecurityConfig {
+    private static final String[] PERMIT_URL_ARRAY = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/member/**"
+    };
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -30,7 +37,7 @@ public class SecurityConfig {
                 .addFilterBefore(new TokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/vote/**").hasAuthority("USER")
-                .antMatchers("/member/**").permitAll()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().permitAll()
 
                 .and()
