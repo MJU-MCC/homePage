@@ -18,4 +18,7 @@ public abstract class MemberMessage {
     public final static String NOT_AUTHENTICATE = "인증이 필요합니다.";
     public final static String NOT_AUTHORIZATION = "관리자가 아닙니다.";
 
+    public final static String GET_SUCCESS_INFO = "내 정보 꺼내기가 성공하였습니다.";
+    public final static String GET_FAIL_INFO = "내 정보 꺼내기가 실패하였습니다.";
+
 }

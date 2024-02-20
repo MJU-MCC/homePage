@@ -2,6 +2,7 @@ package com.example.mccHomePage.Member.controller;
 
 import com.example.mccHomePage.Member.dto.MemberDto;
 import com.example.mccHomePage.Member.message.TokenMessage;
+import com.example.mccHomePage.Member.response.InfoResponse;
 import com.example.mccHomePage.Member.response.MemberResponse;
 import com.example.mccHomePage.Member.response.TokenResponse;
 import com.example.mccHomePage.Member.service.MemberService;
@@ -10,12 +11,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.mccHomePage.Member.message.MemberMessage.SIGN_SUCCESS;
+import java.util.Collection;
+
+import static com.example.mccHomePage.Member.message.MemberMessage.*;
 import static com.example.mccHomePage.Member.message.TokenMessage.TOKEN_CREATE_FAIL;
 
 @Api(tags = "MCC 동아리 홈페이지 Api 문서")
@@ -70,6 +76,31 @@ public class MemberController {
 
     }
 
+    @PostMapping("/get/myinfo")
+    @Operation(summary = "내 정보 꺼내기 Api" , description = "토큰을 주고 정보를 받습니다.")
+    public ResponseEntity<InfoResponse> memberInfo(){
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String memberNumber = authentication.getCredentials().toString();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        boolean isUser = authorities.contains("USER");
+
+        log.info("꺼낸 memberNumber = {}" , memberNumber);
+        log.info("isUser = {}", isUser);
+
+        InfoResponse response = new InfoResponse();
+
+        if(authentication == null){
+            response.setMessage(GET_FAIL_INFO);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        response.setMemberNumber(memberNumber);
+        response.setUser(isUser);
+        response.setMessage(GET_SUCCESS_INFO);
+
+        return ResponseEntity.ok().body(response);
+    }
 
 }
