@@ -1,13 +1,12 @@
 package com.example.mccHomePage.Member.controller;
 
+import com.example.mccHomePage.Member.dto.ChangePassword;
 import com.example.mccHomePage.Member.dto.MemberDto;
-import com.example.mccHomePage.Member.message.TokenMessage;
 import com.example.mccHomePage.Member.response.InfoResponse;
 import com.example.mccHomePage.Member.response.MemberResponse;
 import com.example.mccHomePage.Member.response.TokenResponse;
 import com.example.mccHomePage.Member.service.MemberService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -101,6 +100,26 @@ public class MemberController {
         response.setMessage(GET_SUCCESS_INFO);
 
         return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/change/password")
+    @Operation(summary = "비밀번호 변경하기 Api" , description = "토큰을 이용하여 비밀번호를 변경합니다.")
+    public ResponseEntity<InfoResponse> changePassword(@RequestBody ChangePassword changePassword){
+
+        String currentPassword = changePassword.getCurrentPassword();
+        String nextPassword = changePassword.getNextPassword();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String memberNumber = authentication.getCredentials().toString();
+
+        InfoResponse response = memberService.changePassword(memberNumber, currentPassword, nextPassword);
+
+        if(response.getMessage().equals(SUCCESS_CHANGE_PASSWORD)){
+            return ResponseEntity.ok().body(response);
+        }
+
+        return ResponseEntity.badRequest().body(response);
     }
 
 }
