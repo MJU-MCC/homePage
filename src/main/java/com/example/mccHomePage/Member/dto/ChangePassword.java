@@ -6,5 +6,5 @@ import lombok.Getter;
 public class ChangePassword {
 
     String currentPassword;
-    String NextPassword;
+    String nextPassword;
 }

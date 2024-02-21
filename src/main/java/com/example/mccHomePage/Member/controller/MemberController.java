@@ -13,12 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 import static com.example.mccHomePage.Member.message.MemberMessage.*;
 import static com.example.mccHomePage.Member.message.TokenMessage.TOKEN_CREATE_FAIL;
@@ -75,15 +73,17 @@ public class MemberController {
 
     }
 
-    @PostMapping("/get/myinfo")
+    @GetMapping("/get/myinfo")
     @Operation(summary = "내 정보 꺼내기 Api" , description = "토큰을 주고 정보를 받습니다.")
     public ResponseEntity<InfoResponse> memberInfo(){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("authentication = {}", authentication);
+        String memberNumber = authentication.getPrincipal().toString();
 
-        String memberNumber = authentication.getCredentials().toString();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        boolean isUser = authorities.contains("USER");
+        boolean isUser = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch("USER"::equals);
 
         log.info("꺼낸 memberNumber = {}" , memberNumber);
         log.info("isUser = {}", isUser);
@@ -108,10 +108,11 @@ public class MemberController {
 
         String currentPassword = changePassword.getCurrentPassword();
         String nextPassword = changePassword.getNextPassword();
+        log.info("nextPassword = {} ", nextPassword);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        String memberNumber = authentication.getCredentials().toString();
+        String memberNumber = authentication.getPrincipal().toString();
 
         InfoResponse response = memberService.changePassword(memberNumber, currentPassword, nextPassword);
 

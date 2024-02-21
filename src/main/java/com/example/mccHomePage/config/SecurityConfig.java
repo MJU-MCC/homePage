@@ -27,8 +27,8 @@ public class SecurityConfig {
 
     private static final String[] PERMIT_URL_ARRAY = {
         "/v3/api-docs/**",
-        "/swagger-ui/**",
-        "/member/login"
+        "/swagger-ui/",
+        "/member/**"
     };
 
     private static final String[]  NEED_PERMISSION_USER_URL_ARRAY = {
@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .addFilterBefore(new TokenFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(NEED_PERMISSION_USER_URL_ARRAY).hasAuthority("USER")
-                .antMatchers(NEED_PERMISSION_ADMIN_URL_ARRAY).hasAuthority("ADMIN")
+//                .antMatchers(NEED_PERMISSION_ADMIN_URL_ARRAY).hasAuthority("ADMIN")
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().permitAll()
 

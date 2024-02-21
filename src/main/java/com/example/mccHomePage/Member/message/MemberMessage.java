@@ -23,7 +23,7 @@ public abstract class MemberMessage {
 
     public final static String CORRECT_NOT_PASSWORD = "입력하신 현재 비밀번호가 맞지 않습니다.";
     public final static String INPUT_NOT_PASSWORD = "변경 할 비밀번호를 입력해주세요.";
-    public final static String SUCCESS_CHANGE_PASSWORD = "변경 할 비밀번호를 입력해주세요.";
+    public final static String SUCCESS_CHANGE_PASSWORD = "비밀번호 변경이 성공하였습니다.";
 
 
 }
