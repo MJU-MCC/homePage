@@ -10,11 +10,11 @@ public class UtilProvider {
     }
 
     public Long getAccessTokenExpiredTime(){
-        //1초 * 1분 * 60분
+        //1초 * 1분 * 30분
         return 1000 * 60 * 60L ;
     }
     public Long getRefreshTokenExpiredTime(){
-        //1초 * 1분 * 1시간 * 12시간
-        return 1000 * 60 * 60 * 12L ;
+        //1초 * 1분 * 1시간 * 24시간 * 7일
+        return 1000 * 60 * 60 * 12 * 7L;
     }
 }

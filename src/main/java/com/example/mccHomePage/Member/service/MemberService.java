@@ -1,8 +1,10 @@
 package com.example.mccHomePage.Member.service;
 
 import com.example.mccHomePage.Member.entity.Member;
+import com.example.mccHomePage.Member.message.MemberMessage;
 import com.example.mccHomePage.Member.message.TokenMessage;
 import com.example.mccHomePage.Member.repository.MemberRepository;
+import com.example.mccHomePage.Member.response.InfoResponse;
 import com.example.mccHomePage.Member.response.MemberResponse;
 import com.example.mccHomePage.Member.response.TokenResponse;
 import com.example.mccHomePage.token.TokenUtil;
@@ -41,7 +43,7 @@ public class MemberService {
 
         boolean isMemberNumber = isRightMemberNumber(id);
         //학번이 제대로 입력이 안될경우 알려주기
-        if(isMemberNumber){
+        if(!isMemberNumber){
             memberResponse.setMessage(SIGN_RECHECK_MEMBERNUMBER);
             return memberResponse;
         }
@@ -79,7 +81,7 @@ public class MemberService {
          * true를 반환한다면 올바른 학번
         */
 
-        if(id.length()!=8 || id.startsWith("60")){
+        if(id.length()!= 8 || !id.startsWith("60")){
             //학번이 8글자가 아니거나 8글자인데 60으로 시작하지 않으면 실패
             return false;
         }
@@ -104,5 +106,40 @@ public class MemberService {
         tokenResponse.setMessage(TOKEN_CREATE_FAIL);
 
         return tokenResponse;
+    }
+
+    public InfoResponse changePassword(String memberNumber,String current , String next){
+        Member findMember = memberRepository.findByMemberNumber(memberNumber);
+
+        InfoResponse infoResponse = new InfoResponse();
+
+        if(next.isEmpty()){
+            infoResponse.setMemberNumber(memberNumber);
+            infoResponse.setMessage(INPUT_NOT_PASSWORD);
+
+            return infoResponse;
+        }
+
+        if(findMember == null){
+            infoResponse.setMemberNumber(memberNumber);
+            infoResponse.setMessage(GET_FAIL_INFO);
+
+            return infoResponse;
+        }
+        if(!findMember.getMemberPassword().equals(current)){
+            infoResponse.setMemberNumber(memberNumber);
+            infoResponse.setMessage(CORRECT_NOT_PASSWORD);
+
+            return infoResponse;
+        }
+
+        findMember.setMemberPassword(next);
+        memberRepository.save(findMember);
+
+        infoResponse.setMemberNumber(memberNumber);
+        infoResponse.setMessage(SUCCESS_CHANGE_PASSWORD);
+        infoResponse.setUser(true);
+
+        return  infoResponse;
     }
 }

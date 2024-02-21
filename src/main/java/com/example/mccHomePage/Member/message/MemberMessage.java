@@ -15,4 +15,15 @@ public abstract class MemberMessage {
     public final static String SIGN_RECHECK_MEMBERNUMBER = "입력한 학번을 다시 확인해주세요";
     public final static String SIGN_FAIL = "회원가입 실패 하였습니다.";
 
+    public final static String NOT_AUTHENTICATE = "인증이 필요합니다.";
+    public final static String NOT_AUTHORIZATION = "관리자가 아닙니다.";
+
+    public final static String GET_SUCCESS_INFO = "회원 정보 꺼내기가 성공하였습니다.";
+    public final static String GET_FAIL_INFO = "회원 정보 꺼내기가 실패하였습니다.";
+
+    public final static String CORRECT_NOT_PASSWORD = "입력하신 현재 비밀번호가 맞지 않습니다.";
+    public final static String INPUT_NOT_PASSWORD = "변경 할 비밀번호를 입력해주세요.";
+    public final static String SUCCESS_CHANGE_PASSWORD = "비밀번호 변경이 성공하였습니다.";
+
+
 }
