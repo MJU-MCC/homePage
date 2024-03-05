@@ -1,0 +1,6 @@
+insert into member (member_number, member_password,member_role)
+values(
+       '60215206',
+       '1234',
+       'ADMIN'
+      );
