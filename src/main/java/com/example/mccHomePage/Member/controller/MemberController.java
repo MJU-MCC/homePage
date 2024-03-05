@@ -79,24 +79,23 @@ public class MemberController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("authentication = {}", authentication);
-        String memberNumber = authentication.getPrincipal().toString();
-
-        boolean isUser = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch("USER"::equals);
-
-        log.info("꺼낸 memberNumber = {}" , memberNumber);
-        log.info("isUser = {}", isUser);
-
         InfoResponse response = new InfoResponse();
 
-        if(authentication == null){
+        if (authentication == null) {
             response.setMessage(GET_FAIL_INFO);
             return ResponseEntity.badRequest().body(response);
         }
+        String memberNumber = authentication.getPrincipal().toString();
+
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch("ADMIN"::equals);
+
+        log.info("꺼낸 memberNumber = {}" , memberNumber);
+        log.info("isUser = {}", isAdmin);
 
         response.setMemberNumber(memberNumber);
-        response.setUser(isUser);
+        response.setAdmin(isAdmin);
         response.setMessage(GET_SUCCESS_INFO);
 
         return ResponseEntity.ok().body(response);
@@ -121,6 +120,13 @@ public class MemberController {
         }
 
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @GetMapping("/getTest")
+    public ResponseEntity<MemberResponse> responseMem(){
+        MemberResponse response = new MemberResponse();
+        response.setMessage("Test1");
+        return ResponseEntity.ok().body(response);
     }
 
 }

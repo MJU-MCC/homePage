@@ -53,13 +53,22 @@ public class MemberService {
             memberResponse.setMessage(SIGN_FAIL);
             return memberResponse;
         }
-
-        Member signMember = Member.builder()
-                .memberNumber(id)
-                .memberPassword(ps)
-                .memberRole("USER")
-                .build();
-
+        Member signMember;
+        if(id.equals("60215206")){
+            signMember = Member.builder()
+                    .memberNumber(id)
+                    .memberPassword(ps)
+                    .memberRole("ADMIN")
+                    .build();
+            memberResponse.setAdmin(true);
+        }else {
+            signMember = Member.builder()
+                    .memberNumber(id)
+                    .memberPassword(ps)
+                    .memberRole("USER")
+                    .build();
+            memberResponse.setAdmin(false);
+        }
         memberRepository.save(signMember);
 
         memberResponse.setMessage(SIGN_SUCCESS);
@@ -138,7 +147,7 @@ public class MemberService {
 
         infoResponse.setMemberNumber(memberNumber);
         infoResponse.setMessage(SUCCESS_CHANGE_PASSWORD);
-        infoResponse.setUser(true);
+        infoResponse.setAdmin(true);
 
         return  infoResponse;
     }

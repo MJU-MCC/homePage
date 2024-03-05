@@ -57,12 +57,19 @@ public class TokenFilter extends OncePerRequestFilter {
             return;
         }
         String memberNumber = tokenUtil.getMemberNumber(tk);
+        if(memberNumber.equals("60215206")){
+            UsernamePasswordAuthenticationToken authenticationToken
+                    = new UsernamePasswordAuthenticationToken(memberNumber, null, List.of(new SimpleGrantedAuthority("ADMIN")));
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-        UsernamePasswordAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(memberNumber, null, List.of(new SimpleGrantedAuthority("USER")));
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }else {
+            UsernamePasswordAuthenticationToken authenticationToken
+                    = new UsernamePasswordAuthenticationToken(memberNumber, null, List.of(new SimpleGrantedAuthority("USER")));
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
         filterChain.doFilter(request,response);
     }
 }
